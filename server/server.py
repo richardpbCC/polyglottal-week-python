@@ -1,7 +1,7 @@
 import socket
 import threading
 
-HOST = '127.0.0.1'  # ipconfig
+HOST = '127.0.0.1'  # local host ip
 PORT = 9090
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

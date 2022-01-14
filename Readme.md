@@ -19,11 +19,10 @@ $ cd python-polyglottal-week
 ```
 
 ### Running the server and client
+Start server
 ```
-
-$ Start Server
-```
-py server/server.py       
+$ py server/server.py 
+```      
 
 Start Client
 ```
