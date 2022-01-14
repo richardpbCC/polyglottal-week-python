@@ -4,7 +4,7 @@ import tkinter
 import tkinter.scrolledtext
 from tkinter import simpledialog
 
-HOST = "127.0.0.1"  # use real IP and open ports
+HOST = "127.0.0.1"  # local host ip
 PORT = 9090
 
 
@@ -17,7 +17,7 @@ class Client:
         msg = tkinter.Tk()
         msg.withdraw()
 
-        self.nickname = simpledialog.askstring("Nickname", "Please choose a nickname", parent=msg)
+        self.username = simpledialog.askstring("Username", "Please enter a username", parent=msg)
 
         self.gui_done = False
         self.running = True
@@ -30,9 +30,9 @@ class Client:
 
     def gui_loop(self):
         self.win = tkinter.Tk()
-        self.win.configure(bg="lightgray")
+        self.win.configure(bg="darkgray")
 
-        self.chat_label = tkinter.Label(self.win, text="Chat", bg="lightgray")
+        self.chat_label = tkinter.Label(self.win, text="Chat", bg="darkgray")
         self.chat_label.config(font=("Arial", 12))
         self.chat_label.pack(padx=20, pady=5)
 
@@ -40,7 +40,7 @@ class Client:
         self.text_area.pack(padx=20, pady=5)
         self.text_area.config(state='disabled')
 
-        self.msg_label = tkinter.Label(self.win, text="Message:", bg="lightgray")
+        self.msg_label = tkinter.Label(self.win, text="Input your message:", bg="darkgray")
         self.msg_label.config(font=("Arial", 12))
         self.msg_label.pack(padx=20, pady=5)
 
@@ -58,7 +58,7 @@ class Client:
         self.win.mainloop()
 
     def write(self):
-        message = f"{self.nickname}: {self.input_area.get('1.0', 'end')}"
+        message = f"{self.username}: {self.input_area.get('1.0', 'end')}"
         self.sock.send(message.encode('utf-8'))
         self.input_area.delete('1.0', 'end')
 
@@ -72,8 +72,8 @@ class Client:
         while self.running:
             try:
                 message = self.sock.recv(1024).decode('utf-8')
-                if message == 'Nick':
-                    self.sock.send(self.nickname.encode('utf-8'))
+                if message == 'request to connect':
+                    self.sock.send(self.username.encode('utf-8'))
                 else:
                     if self.gui_done:
                         self.text_area.config(state='normal')
@@ -83,7 +83,7 @@ class Client:
             except ConnectionAbortedError:
                 break
             except:
-                print("Error")
+                print("Error connecting to server")
                 self.sock.close()
                 break
 

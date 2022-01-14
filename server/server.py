@@ -41,16 +41,16 @@ def handle(client):
 
 def receive():
     while True:
-        client, address = server.accept()
-        print(f"Connected with {str(address)}!")
+        client, address = server.accept()        
+        print(f"Connected with {str(address)}")
 
-        client.send("NICK".encode('utf-8'))
+        client.send('request to connect'.encode('utf-8'))
         nickname = client.recv(1024)
 
         nicknames.append(nickname)
         clients.append(client)
 
-        print(f"Nickname of the client is {nickname}")
+        print(f"Nickname of the client is {nickname}\n".encode('utf-8'))
         broadcast(f"{nickname} connected to the server\n".encode('utf-8'))
         client.send("Connected to the server".encode('utf-8'))
 
@@ -58,5 +58,5 @@ def receive():
         thread.start()
 
 
-print("Server running...")
+print(f"Server listening on port {PORT}")
 receive()
