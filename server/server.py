@@ -30,9 +30,10 @@ def handle(client):
             broadcast(message)
         except:
             index = clients.index(client)
-            clients.remove(client)
-            client.close()
             nickname = nicknames[index]
+            print(f"{nickname} has disconnected") 
+            clients.remove(client)            
+            client.close()            
             nicknames.remove(nickname)
             break
 
